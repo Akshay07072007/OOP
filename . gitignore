@@ -14,7 +14,7 @@
 .idea/
 *.iml
 *.ipr
-*.iws
+*.iws 
 
 # OS generated files
 .DS_Store
