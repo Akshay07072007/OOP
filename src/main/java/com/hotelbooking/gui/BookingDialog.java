@@ -1,4 +1,4 @@
-package com.hotelbooking.gui;
+ package com.hotelbooking.gui;
 
 import com.hotelbooking.model.Booking;
 import com.hotelbooking.model.Customer;
@@ -262,13 +262,28 @@ public class BookingDialog extends JDialog {
             return;
         }
         
-        // For now, simulate customer search
-        // In real implementation, this would call customerService.findCustomerByEmail(email)
-        JOptionPane.showMessageDialog(this,
-            "Customer search feature will be implemented when we create CustomerService!\n" +
-            "For now, please enter customer details manually.",
-            "Feature Coming Soon",
-            JOptionPane.INFORMATION_MESSAGE);
+        // Search for existing customer
+        Customer customer = customerService.findCustomerByEmail(email);
+        if (customer != null) {
+            // Populate fields with customer data
+            customerNameField.setText(customer.getName());
+            customerPhoneField.setText(customer.getPhone());
+            selectedCustomer = customer;
+            
+            JOptionPane.showMessageDialog(this,
+                "Customer found!\n" +
+                "Name: " + customer.getName() + "\n" +
+                "Phone: " + customer.getPhone(),
+                "Customer Found",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "No customer found with email: " + email + "\n" +
+                "Please enter customer details to create a new customer.",
+                "Customer Not Found",
+                JOptionPane.INFORMATION_MESSAGE);
+            selectedCustomer = null;
+        }
     }
 
     private void searchRoom() {
@@ -328,6 +343,13 @@ public class BookingDialog extends JDialog {
                 return;
             }
             
+            // Check room availability for selected dates
+            if (!bookingService.isRoomAvailable(selectedRoom.getRoomNumber(), checkIn, checkOut)) {
+                totalAmountLabel.setText("Room not available for selected dates!");
+                totalAmountLabel.setForeground(Color.RED);
+                return;
+            }
+            
             long days = java.time.temporal.ChronoUnit.DAYS.between(checkIn, checkOut);
             double totalAmount = days * selectedRoom.getPrice();
             
@@ -366,13 +388,34 @@ public class BookingDialog extends JDialog {
                 return;
             }
             
-            // Show confirmation dialog
+            // Validate customer data
+            String name = customerNameField.getText().trim();
+            String email = customerEmailField.getText().trim();
+            String phone = customerPhoneField.getText().trim();
+            
+            if (!customerService.validateCustomerData(name, email, phone)) {
+                return; // Validation failed
+            }
+            
+            // Check room availability
+            if (!bookingService.isRoomAvailable(selectedRoom.getRoomNumber(), checkIn, checkOut)) {
+                JOptionPane.showMessageDialog(this,
+                    "Room is not available for the selected dates!",
+                    "Room Not Available",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Calculate total amount
             long days = java.time.temporal.ChronoUnit.DAYS.between(checkIn, checkOut);
             double totalAmount = days * selectedRoom.getPrice();
             
+            // Show confirmation dialog
             int confirmation = JOptionPane.showConfirmDialog(this,
                 "Please confirm booking details:\n\n" +
-                "Customer: " + customerNameField.getText().trim() + "\n" +
+                "Customer: " + name + "\n" +
+                "Email: " + email + "\n" +
+                "Phone: " + phone + "\n" +
                 "Room: " + selectedRoom.getRoomNumber() + " (" + selectedRoom.getRoomType() + ")\n" +
                 "Dates: " + checkIn + " to " + checkOut + " (" + days + " nights)\n" +
                 "Total Amount: $" + String.format("%.2f", totalAmount) + "\n\n" +
@@ -381,16 +424,28 @@ public class BookingDialog extends JDialog {
                 JOptionPane.YES_NO_OPTION);
                 
             if (confirmation == JOptionPane.YES_OPTION) {
-                // For now, show success message
-                // In real implementation, this would call bookingService.makeBooking()
-                JOptionPane.showMessageDialog(this,
-                    "Booking confirmed successfully!\n\n" +
-                    "Booking details have been saved to the database.\n" +
-                    "A confirmation email would be sent to the customer.",
-                    "Booking Confirmed",
-                    JOptionPane.INFORMATION_MESSAGE);
+                // Create the booking
+                Booking booking = bookingService.makeBooking(name, email, phone, 
+                    selectedRoom.getRoomNumber(), checkIn, checkOut, selectedRoom.getPrice());
                 
-                dispose(); // Close dialog
+                if (booking != null) {
+                    JOptionPane.showMessageDialog(this,
+                        "✅ Booking confirmed successfully!\n\n" +
+                        "Booking ID: " + booking.getBookingId() + "\n" +
+                        "Room: " + selectedRoom.getRoomNumber() + "\n" +
+                        "Total Amount: $" + String.format("%.2f", totalAmount) + "\n" +
+                        "Status: " + booking.getStatus() + "\n\n" +
+                        "Thank you for your booking!",
+                        "Booking Confirmed",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    dispose(); // Close dialog
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                        "Failed to create booking. Please try again.",
+                        "Booking Error",
+                        JOptionPane.ERROR_MESSAGE);
+                }
             }
             
         } catch (Exception e) {
@@ -407,4 +462,4 @@ public class BookingDialog extends JDialog {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-          }
+    }
