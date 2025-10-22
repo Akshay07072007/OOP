@@ -1,4 +1,4 @@
-package com.hotelbooking.model;
+ package com.hotelbooking.model;
 
 /**
  * Customer class representing a hotel customer entity
