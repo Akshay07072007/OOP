@@ -183,13 +183,26 @@ public class SearchRoomsDialog extends JDialog {
                 clearFilters();
             }
         });
-
         bookButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                bookSelectedRoom();
-            }
-        });
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int selectedRow = roomsTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(SearchRoomsDialog.this, 
+                "Please select a room from the table to book!", 
+                "No Room Selected", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int roomNumber = (int) roomsTable.getValueAt(selectedRow, 0);
+        
+        // Close search dialog and open booking dialog with pre-selected room
+        dispose();
+        BookingDialog bookingDialog = new BookingDialog((JFrame) getParent(), roomNumber);
+        bookingDialog.setVisible(true);
+    }
+});
         
         // Enter key in price field triggers search
         maxPriceField.addActionListener(new ActionListener() {
