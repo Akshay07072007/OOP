@@ -100,14 +100,12 @@ public class MainFrame extends JFrame {
         });
 
         viewBookingsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainFrame.this, 
-                    "View Bookings feature will be implemented here!", 
-                    "Feature Coming Soon", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        ViewBookingsDialog viewBookingsDialog = new ViewBookingsDialog(MainFrame.this);
+        viewBookingsDialog.setVisible(true);
+    }
+});
 
         exitButton.addActionListener(new ActionListener() {
             @Override
