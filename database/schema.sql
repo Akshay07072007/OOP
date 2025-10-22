@@ -12,7 +12,7 @@ CREATE TABLE customers (
     phone VARCHAR(15) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+ 
 -- Rooms table
 CREATE TABLE rooms (
     room_number INT PRIMARY KEY,
