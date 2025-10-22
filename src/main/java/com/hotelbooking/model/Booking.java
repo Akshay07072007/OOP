@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit;
  * Booking class representing a hotel booking transaction
  * Demonstrates OOP concepts with business logic methods
  */
-public class Booking {
+public class Booking { 
     // Private fields - Encapsulation
     private int bookingId;
     private int customerId;
