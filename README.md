@@ -26,3 +26,12 @@ A console-based hotel booking system developed in Java using Object-Oriented Pro
 - OOP Principles
 
 ## 📁 Project Structure
+## 🛠️ Setup Instructions
+1. Clone the repository: `git clone https://github.com/Akshay07072007/OOP.git`
+2. Import the database schema from `database/schema.sql`
+3. Configure database connection in `DatabaseConnection.java`
+4. Compile and run the Java application
+
+## 📄 Documentation
+- Project report available in `docs/` folder
+- Database schema in `database/` folder
