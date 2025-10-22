@@ -1,5 +1,5 @@
  package com.hotelbooking.model;
- 
+  
 /**
  * Room class representing a hotel room entity
  * Demonstrates OOP Encapsulation with private fields and public getters/setters
