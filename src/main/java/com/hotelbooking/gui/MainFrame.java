@@ -93,14 +93,12 @@ public class MainFrame extends JFrame {
     }
 });
         cancelBookingButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainFrame.this, 
-                    "Cancel Booking feature will be implemented here!", 
-                    "Feature Coming Soon", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        CancelBookingDialog cancelDialog = new CancelBookingDialog(MainFrame.this);
+        cancelDialog.setVisible(true);
+    }
+});
 
         viewBookingsButton.addActionListener(new ActionListener() {
     @Override
