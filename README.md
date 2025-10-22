@@ -9,7 +9,7 @@ A console-based hotel booking system developed in Java using Object-Oriented Pro
 - Booking management
 - Customer registration  
 - Booking cancellation
-- Database integration
+- Database integration 
 
 ## 👥 Team Members
 - ABHISHEK ANIL (KNP24CS012)
