@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
     private JButton viewBookingsButton;
     private JButton exitButton;
     private JLabel titleLabel;
+    private JButton manageCustomersButton;
 
     public MainFrame() {
         initializeComponents();
@@ -33,6 +34,7 @@ public class MainFrame extends JFrame {
         cancelBookingButton = new JButton("❌ Cancel Booking");
         viewBookingsButton = new JButton("📋 View My Bookings");
         exitButton = new JButton("🚪 Exit");
+        manageCustomersButton = new JButton("👥 Manage Customers");
     }
 
     private void setupLayout() {
@@ -50,6 +52,7 @@ public class MainFrame extends JFrame {
         styleButton(cancelBookingButton, new Color(220, 20, 60));
         styleButton(viewBookingsButton, new Color(255, 140, 0));
         styleButton(exitButton, new Color(128, 128, 128));
+        styleButton(manageCustomersButton, new Color(75, 0, 130)); // Purple color
         
         // Add components to panel
         mainPanel.add(titleLabel);
@@ -58,7 +61,6 @@ public class MainFrame extends JFrame {
         mainPanel.add(cancelBookingButton);
         mainPanel.add(viewBookingsButton);
         mainPanel.add(exitButton);
-        
         add(mainPanel);
     }
 
@@ -69,6 +71,7 @@ public class MainFrame extends JFrame {
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createRaisedBevelBorder());
         button.setPreferredSize(new Dimension(300, 50));
+        
     }
 
     private void setupEventListeners() {
