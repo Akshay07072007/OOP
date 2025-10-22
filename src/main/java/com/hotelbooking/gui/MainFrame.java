@@ -106,20 +106,21 @@ public class MainFrame extends JFrame {
         viewBookingsDialog.setVisible(true);
     }
 });
+     exitButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int confirm = JOptionPane.showConfirmDialog(MainFrame.this,
+            "Are you sure you want to exit?", 
+            "Confirm Exit", 
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            ApplicationLauncher.shutdown();
+        }
+    }
+});
 
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int confirm = JOptionPane.showConfirmDialog(MainFrame.this,
-                    "Are you sure you want to exit?", 
-                    "Confirm Exit", 
-                    JOptionPane.YES_NO_OPTION);
-                
-                if (confirm == JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
-            }
-        });
+        
     }
 
     private void setFrameProperties() {
